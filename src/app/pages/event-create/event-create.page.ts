@@ -1,18 +1,27 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { EventService } from '../../services/event/event.service';
 
 @Component({
-  selector: 'event-create',
+  selector: 'app-event-create',
   templateUrl: './event-create.page.html',
   styleUrls: ['./event-create.page.scss'],
 })
 export class EventCreatePage implements OnInit {
+  constructor(private router: Router, private eventService: EventService) {}
 
-  
+  ngOnInit() {}
 
-  constructor() { }
-
-  ngOnInit() {
-    
+  createEvent(
+    eventName: string,
+    eventDate: string,
+    eventPrice: number,
+    eventCost: number
+  ): void {
+    this.eventService
+      .createEvent(eventName, eventDate, eventPrice, eventCost)
+      .then(newEvent => {
+        this.router.navigateByUrl('');
+      });
   }
-
 }

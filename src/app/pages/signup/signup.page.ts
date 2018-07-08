@@ -1,18 +1,66 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../services/user/auth.service';
+import { LoadingController, AlertController } from '@ionic/angular';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { EmailValidator } from '../../validators/email';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'signup',
+  selector: 'app-signup',
   templateUrl: './signup.page.html',
   styleUrls: ['./signup.page.scss'],
 })
 export class SignupPage implements OnInit {
-
-  
-
-  constructor() { }
-
-  ngOnInit() {
-    
+  public signupForm: FormGroup;
+  public loading: any;
+  constructor(
+    private authService: AuthService,
+    private loadingCtrl: LoadingController,
+    private alertCtrl: AlertController,
+    private formBuilder: FormBuilder,
+    private router: Router
+  ) {
+    this.signupForm = this.formBuilder.group({
+      email: [
+        '',
+        Validators.compose([Validators.required, EmailValidator.isValid]),
+      ],
+      password: [
+        '',
+        Validators.compose([Validators.minLength(6), Validators.required]),
+      ],
+    });
   }
 
+  ngOnInit() {}
+
+  signupUser(): void {
+    if (!this.signupForm.valid) {
+      console.log(
+        `Need to complete the form, current value: ${this.signupForm.value}`
+      );
+    } else {
+      const email: string = this.signupForm.value.email;
+      const password: string = this.signupForm.value.password;
+
+      this.authService.signupUser(email, password).then(
+        () => {
+          this.loading.dismiss().then(() => {
+            this.router.navigateByUrl('home');
+          });
+        },
+        error => {
+          this.loading.dismiss().then(async () => {
+            const alert = await this.alertCtrl.create({
+              message: error.message,
+              buttons: [{ text: 'Ok', role: 'cancel' }],
+            });
+            await alert.present();
+          });
+        }
+      );
+      this.loading = this.loadingCtrl.create();
+      this.loading.present();
+    }
+  }
 }
