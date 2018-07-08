@@ -35,7 +35,7 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {}
 
-  loginUser(): void {
+  async loginUser(): Promise<void> {
     if (!this.loginForm.valid) {
       console.log(
         `Form is not valid yet, current value: ${this.loginForm.value}`
@@ -60,8 +60,8 @@ export class LoginPage implements OnInit {
           });
         }
       );
-      this.loading = this.loadingCtrl.create();
-      this.loading.present();
+      this.loading = await this.loadingCtrl.create();
+      await this.loading.present();
     }
   }
 }

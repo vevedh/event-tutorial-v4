@@ -34,7 +34,7 @@ export class SignupPage implements OnInit {
 
   ngOnInit() {}
 
-  signupUser(): void {
+  async signupUser(): Promise<void> {
     if (!this.signupForm.valid) {
       console.log(
         `Need to complete the form, current value: ${this.signupForm.value}`
@@ -59,8 +59,8 @@ export class SignupPage implements OnInit {
           });
         }
       );
-      this.loading = this.loadingCtrl.create();
-      this.loading.present();
+      this.loading = await this.loadingCtrl.create();
+      await this.loading.present();
     }
   }
 }
