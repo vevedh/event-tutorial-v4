@@ -4,8 +4,9 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-  <form [formGroup]="loginForm" (submit)="loginUser()" novalidate>
+<ion-content padding class="auth-page">
+  <img src="assets/img/banner.jpg" />
+  <form [formGroup]="loginForm" (submit)="loginUser()">
     <ion-item>
       <ion-label stacked>Email</ion-label>
       <ion-input formControlName="email" type="email" placeholder="Your email address" [class.invalid]="!loginForm.controls.email.valid && blur">

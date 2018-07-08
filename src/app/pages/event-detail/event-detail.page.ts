@@ -33,7 +33,7 @@ export class EventDetailPage implements OnInit {
         this.currentEvent.price,
         this.guestPicture
       )
-      .then( () => {
+      .then(() => {
         this.guestName = '';
         this.guestPicture = null;
       });
@@ -56,6 +56,6 @@ export class EventDetailPage implements OnInit {
         error => {
           console.log('ERROR -> ' + JSON.stringify(error));
         }
-      );
-  } */
+      ) */
+  }
 }

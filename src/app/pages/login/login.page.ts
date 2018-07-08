@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import {
+  FormGroup,
+  Validators,
+  FormControl,
+  FormBuilder,
+} from '@angular/forms';
 import { LoadingController, AlertController } from '@ionic/angular';
 import { AuthService } from '../../services/user/auth.service';
-import { EmailValidator } from '../../validators/email';
 import { Router } from '@angular/router';
 
 @Component({
@@ -13,19 +17,15 @@ import { Router } from '@angular/router';
 export class LoginPage implements OnInit {
   public loginForm: FormGroup;
   public loading: any;
-
   constructor(
     public loadingCtrl: LoadingController,
     public alertCtrl: AlertController,
     private authService: AuthService,
-    private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private formBuilder: FormBuilder
   ) {
     this.loginForm = this.formBuilder.group({
-      email: [
-        '',
-        Validators.compose([Validators.required, EmailValidator.isValid]),
-      ],
+      email: ['', Validators.compose([Validators.required, Validators.email])],
       password: [
         '',
         Validators.compose([Validators.required, Validators.minLength(6)]),
