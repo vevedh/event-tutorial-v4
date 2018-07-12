@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { EventService } from '../../services/event/event.service';
 import { ActivatedRoute } from '@angular/router';
 
+import { Plugins, CameraResultType } from '@capacitor/core';
+
 @Component({
   selector: 'app-event-detail',
   templateUrl: './event-detail.page.html',
@@ -39,23 +41,19 @@ export class EventDetailPage implements OnInit {
       });
   }
 
-  takePicture(): void {
-    /* this.cameraPlugin
-      .getPicture({
-        quality: 95,
-        destinationType: this.cameraPlugin.DestinationType.DATA_URL,
-        sourceType: this.cameraPlugin.PictureSourceType.CAMERA,
-        allowEdit: true,
-        encodingType: this.cameraPlugin.EncodingType.PNG,
-        saveToPhotoAlbum: true,
-      })
-      .then(
-        imageData => {
-          this.guestPicture = imageData;
-        },
-        error => {
-          console.log('ERROR -> ' + JSON.stringify(error));
-        }
-      ) */
+  async takePicture(): Promise<void> {
+    const { Camera } = Plugins;
+    try {
+      const profilePicture = await Camera.getPhoto({
+        quality: 100,
+        allowEditing: true,
+        resultType: CameraResultType.Base64,
+        saveToGallery: true,
+      });
+      console.log(profilePicture);
+      this.guestPicture = profilePicture.base64Data;
+    } catch (error) {
+      console.error(error);
+    }
   }
 }

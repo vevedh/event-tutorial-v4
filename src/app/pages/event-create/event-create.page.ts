@@ -18,6 +18,7 @@ export class EventCreatePage implements OnInit {
     eventPrice: number,
     eventCost: number
   ): void {
+    console.log(eventName, eventDate, eventPrice, eventCost);
     this.eventService
       .createEvent(eventName, eventDate, eventPrice, eventCost)
       .then(newEvent => {
